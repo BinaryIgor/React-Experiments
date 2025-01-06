@@ -7,3 +7,6 @@
 
 *.npm
 *.eslintcache
+
+# some-wisdom htmx app
+**/__quote-notes.json

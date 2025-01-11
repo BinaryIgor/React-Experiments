@@ -2,9 +2,9 @@ import { Router, Request, Response } from "express";
 import * as Web from "../shared/web";
 import { InMemoryAuthorRepository, InMemoryQuoteRepository } from "./repository";
 import { AuthorService } from "./domain";
-import * as AuthWeb from "../auth/web";
 import { AuthorClient } from "../shared/clients";
 import { Author, Quote } from "../shared/models";
+import { AppError, Errors } from "../shared/errors";
 
 const SEARCH_AUTHORS_ENDPOINT = "/search-authors";
 const AUTHORS_ENDPOINT = "/authors";
@@ -17,29 +17,25 @@ export function build(): AuthorModule {
 
     const router = Router();
 
-    // router.post(SEARCH_AUTHORS_ENDPOINT, (req: Request, res: Response) => {
-    //     const query = req.body[Views.AUTHORS_SEARCH_INPUT];
+    router.get(SEARCH_AUTHORS_ENDPOINT, (req: Request, res: Response) => {
+        const query = (req.query.query ?? "") as string;
 
-    //     const foundAuthors = authorRepository.search(query);
+        const foundAuthors = authorRepository.search(query);
 
-    //     //Slowing it down a little, for demonstration purposes
-    //     setTimeout(() => Web.returnHtml(res,
-    //         AuthorViews.authorsSearchResult(authorService.authorsWithRandomQuotes(foundAuthors),
-    //             (aName: string) => `${AUTHORS_ENDPOINT}/${aName}`)),
-    //         1000);
-    // });
+        //Slowing it down a little, for demonstration purposes
+        const results = authorService.authorsWithRandomQuotes(foundAuthors);
+        setTimeout(() => res.send(results), 500);
+    });
 
-    // router.get(`${AUTHORS_ENDPOINT}/:name`, (req: Request, res: Response) => {
-    //     const name = req.params.name;
-
-    //     const author = authorRepository.ofName(name);
-    //     if (author) {
-    //         Web.returnHtml(res, AuthorViews.authorPage(author, quoteEndpoint,
-    //             Web.shouldReturnFullPage(req), AuthWeb.currentUserName(req)));
-    //     } else {
-    //         Web.returnNotFound(res);
-    //     }
-    // });
+    router.get(`${AUTHORS_ENDPOINT}/:name`, (req: Request, res: Response) => {
+        const name = req.params.name;
+        const author = authorRepository.ofName(name);
+        if (author) {
+            res.send(author);
+        } else {
+            throw AppError.ofError(Errors.AUTHOR_DOES_NOT_EXIST);
+        }
+    });
 
     // function returnHomePage(req: Request, res: Response, withSwappedNavigation: boolean) {
     //     const homePage = AuthorViews.homePage(authorRepository.random(3).map(a => a.name),

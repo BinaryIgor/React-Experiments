@@ -43,7 +43,12 @@ export function build(authClient: AuthClient): UserModule {
 
 	router.get(USER_DATA_ENDPOINT, (req: Request, res: Response) => {
 		const user = authClient.currentUser(req);
-		res.send(user);
+		if (user) {
+			res.send(user);
+		} else {
+			res.status(204);
+			res.send();
+		}
 	});
 
 	router.get(USER_PROFILE_ENDPOINT, (req: Request, res: Response) => {

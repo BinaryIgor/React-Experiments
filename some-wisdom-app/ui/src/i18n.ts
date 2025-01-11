@@ -27,20 +27,19 @@ const enTranslations = {
         confirmAddQuoteNoteTitle: "Quote note confirmation",
         confirmAddQuoteNoteContent: "Are you sure that you want to add this note to the quote?",
         notes: "Notes",
-        addQuote: "Add",
+        addNote: "Add",
+        saveNote: "Save",
         notePlaceholder: "Your note...",
         confirmDeleteQuoteNoteTitle: "Quote note confirmation",
         confirmDeleteQuoteNoteContent: "Are you sure that you want to delete this note from the quote?",
+        cancel: "Cancel",
+        ok: "Ok",
         on: "on"
     },
     userProfilePage: {
         header: "User Profile",
         name: "Name",
         description: "Description"
-    },
-    confirmableModal: {
-        cancel: "Cancel",
-        ok: "Ok"
     },
     errorsModal: {
         header: "Something went wrong..."

@@ -5,10 +5,6 @@ export const asyncHandler = (fn: Function) => (req: Request, res: Response, next
     return Promise.resolve(fn(req, res, next)).catch(next);
 }
 
-export function returnNotFound(res: Response) {
-    res.sendStatus(404);
-}
-
 export function cookieValue(req: Request, cookie: string): string | null {
     const cookiesHeader = req.headers.cookie;
     if (!cookiesHeader) {

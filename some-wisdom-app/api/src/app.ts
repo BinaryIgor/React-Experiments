@@ -2,13 +2,12 @@ import fs from "fs";
 import path from "path";
 import express, { NextFunction, Request, Response } from "express";
 import { getConfig } from "./config";
-import { AuthSessions } from "./auth/auth";
 import { AppError, ErrorCode, Errors } from "./shared/errors";
 import * as Web from "./shared/web";
-import { setCurrentUser, SessionCookies, currentUserName } from "./auth/web";
 import * as AuthModule from "./auth/module";
 import * as UserModule from "./user/module";
 import * as AuthorsModule from "./authors/module";
+import * as QuotesModule from "./quotes/module";
 import * as FilesDb from "./files-db";
 import cors from "cors";
 import bodyParser from "body-parser";
@@ -20,11 +19,12 @@ if (!fs.existsSync(sessionConfig.dir)) {
 	fs.mkdirSync(sessionConfig.dir);
 }
 
+const quoteNotesDbPath = path.join(appConfig.db.path, "__quote-notes.json");
+
 const authClient = AuthModule.build(sessionConfig);
 const userModule = UserModule.build(authClient);
 const authorsModule = AuthorsModule.build();
-
-const quoteNotesDbPath = path.join(appConfig.db.path, "__quote-notes.json");
+const quotesModule = QuotesModule.build(quoteNotesDbPath, authClient, authorsModule.client, userModule.client);
 
 const dbPath = appConfig.db.path;
 
@@ -71,11 +71,12 @@ app.use(Web.asyncHandler(async (req: Request, res: Response, next: NextFunction)
 }));
 
 function isPublicRequest(req: Request): boolean {
-	return req.path.startsWith("/user/sign-in") || req.path.startsWith("/user/sign-out");
+	return req.path.startsWith("/user/sign-in") || req.path.startsWith("/user/sign-out") || req.path.startsWith("/user/data");
 }
 
 app.use(userModule.router);
 app.use(authorsModule.router);
+app.use(quotesModule.router);
 
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
 	console.error("Something went wrong...", error);

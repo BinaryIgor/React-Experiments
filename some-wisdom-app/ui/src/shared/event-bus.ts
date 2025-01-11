@@ -10,6 +10,7 @@ export class EventBus {
   subscribers = new Map<string, Subscriber[]>();
 
   subscribe(event: string, subscriber: Subscriber): EventSubscriber {
+    console.log("New subscriber to event: ", event);
     let eventSubscribers = this.subscribers.get(event);
     if (!eventSubscribers) {
       eventSubscribers = [];

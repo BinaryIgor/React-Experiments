@@ -20,7 +20,7 @@ export default function ErrorModal() {
 
 	return (
 		<div className={"fixed w-full h-full z-50 pt-32 bg-black/60" + `${hidden ? " hidden" : ""}`}>
-			<div className="w-11/12 md:w-8/12 xl:w-6/12 px-8 pt-8 pb-16 m-auto relative rounded-lg bg-indigo-900">
+			<div className="w-11/12 md:w-8/12 xl:w-6/12 px-8 pt-8 pb-12 m-auto relative rounded-lg bg-indigo-900">
 				<span onClick={() => setHidden(true)}
 					className="text-4xl absolute top-0 right-2 hover:text-zinc-400 cursor-pointer">&times;</span>
 				<div>

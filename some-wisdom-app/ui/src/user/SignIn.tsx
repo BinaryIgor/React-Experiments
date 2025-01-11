@@ -37,13 +37,10 @@ export default function SignIn() {
 			name: nameInput.current?.value,
 			password: passwordInput.current?.value
 		});
-
-		if (response.success) {
-			console.log("Success, do sth!");
-			navigate("/");
-		} else {
-			Events.showErrorModal(response.errors());
-		}
+		Events.showErrorModalOrRun(response, () => {
+			Events.userSignedIn();
+			navigate("/", { replace: true });
+		});
 	};
 
 	const formEnabled = nameInput.current?.value && passwordInput.current?.value && !nameError && !passwordError;

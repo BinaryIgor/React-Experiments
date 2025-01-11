@@ -8,18 +8,38 @@ import ErrorModal from './shared/ErrorModal';
 import AuthorsHomePage from './author/AuthorsHomePage';
 import SignIn from './user/SignIn';
 import UserProfile from './user/UserProfile';
+import AuthorPage from './author/AuthorPage';
+import RoutesGuard from './shared/RoutesGuard';
+import QuotePage from './quote/QuotePage';
+import { UserProvider } from './shared/UserContext';
+import ProtectedRoute from './shared/ProtectedRoute';
 
+// public routes needed to also be defined in the <RoutesGuard>
 createRoot(document.getElementById('root')!).render(
 	<StrictMode>
-		<ErrorModal />
-		<BrowserRouter>
-			<TopNav />
-			<Routes>
-				<Route path="/" element={<AuthorsHomePage />}></Route>
-				<Route path="*" element={<AuthorsHomePage />}></Route>
-				<Route path="/sign-in" element={<SignIn />}></Route>
-				<Route path="/user-profile" element={<UserProfile />}></Route>
-			</Routes>
-		</BrowserRouter>
+		<UserProvider>
+			<ErrorModal />
+			<BrowserRouter>
+				<RoutesGuard>
+					<TopNav />
+					<Routes>
+						<Route path="/sign-in" element={<SignIn />}></Route>
+
+						<Route element={<ProtectedRoute />}>
+							<Route path="/" element={<AuthorsHomePage />} />
+						</Route>
+						<Route element={<ProtectedRoute />}>
+							<Route path="/authors/:name" element={<AuthorPage></AuthorPage>}></Route>
+						</Route>
+						<Route element={<ProtectedRoute />}>
+							<Route path="/quotes/:id" element={<QuotePage></QuotePage>}></Route>
+						</Route>
+						<Route element={<ProtectedRoute />}>
+							<Route path="/user-profile" element={<UserProfile />}></Route>
+						</Route>
+					</Routes>
+				</RoutesGuard>
+			</BrowserRouter>
+		</UserProvider>
 	</StrictMode>
 )

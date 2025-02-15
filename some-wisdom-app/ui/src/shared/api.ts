@@ -1,6 +1,6 @@
 class Api {
 
-  constructor(private readonly baseUrl: string, private readonly onUnauthenicated: Function) { }
+  constructor(private readonly baseUrl: string, private readonly onUnauthenticated: Function) { }
 
   async exchange({ path, method, body }: { path: string, method: string, body: any | undefined }): Promise<Response> {
     try {
@@ -13,7 +13,7 @@ class Api {
         credentials: "include"
       });
       if (response.status == 401) {
-        this.onUnauthenicated();
+        this.onUnauthenticated();
       }
       const json = this.hasJsonContent(response.headers) ? await response.json() : null;
       return new Response(response.ok, json);

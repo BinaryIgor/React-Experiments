@@ -61,7 +61,9 @@ async function getAuthor(name: string, setAuthor: Function) {
   Events.showErrorModalOrRun(response, () => {
     setAuthor(response.data as Author);
     if (lastScroll > 0) {
-      window.scrollTo({ left: 0, top: lastScroll });
+      setTimeout(() => {
+        window.scrollTo({ left: 0, top: lastScroll });
+      });
     }
   });
 }

@@ -1,7 +1,7 @@
 // src/components/Button.test.tsx
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Button from './Button';
+import Button from '../Button';
 
 describe('Button Component', () => {
   it('renders the button with the correct label', () => {

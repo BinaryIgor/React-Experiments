@@ -46,7 +46,7 @@ export default function SignIn() {
 	const formEnabled = nameInput.current?.value && passwordInput.current?.value && !nameError && !passwordError;
 
 	return (<>
-		<h1 className="p-4 text-2xl">Let's get some wisdom</h1>
+		<h1 className="p-4 text-2xl">{t("signInPage.header")}</h1>
 		<form className="p-4 relative w-fit" onSubmit={signIn}>
 			<input type="text" name="name" className="input-like" placeholder={t("signInPage.namePlaceholder")}
 				ref={nameInput} onChange={validateName} />

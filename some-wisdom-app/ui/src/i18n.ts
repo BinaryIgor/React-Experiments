@@ -9,6 +9,7 @@ const enTranslations = {
     },
     signIn: "Sign In",
     signInPage: {
+        header: "Let's get some wisdom",
         namePlaceholder: "Your name...",
         passwordPlaceholder: "Your password...",
         signInButton: "Sign In"

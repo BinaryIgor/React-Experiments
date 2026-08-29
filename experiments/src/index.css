@@ -1,0 +1,5 @@
+:root {
+  --base-spacing-unit: 0.25rem;
+  --base-font-unit: 1rem;
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+}

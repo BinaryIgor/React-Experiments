@@ -1,0 +1,4 @@
+export const Errors = {
+  UNKNOWN: "UNKNOWN",
+  DUPLICATED_BOOK: "DUPLICATED_BOOK"
+};
